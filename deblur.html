@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Deblurred Images - Beautify</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      header {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 48px;
+        margin: 0;
+      }
+
+      .image-container {
+        text-align: center;
+        margin-top: 40px;
+        perspective: 1000px;
+      }
+
+      .moving-images {
+        position: relative;
+        width: 100%;
+        height: 400px;
+        transform-style: preserve-3d;
+        animation: rotateImages 40s linear infinite;
+      }
+
+      .moving-images img {
+        position: absolute;
+        width: 400px;
+        height: auto;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotateY(0deg);
+        transition: transform 1s ease-in-out;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        opacity: 0.8;
+      }
+
+      .moving-images img.show {
+        transform: translate(-50%, -50%) rotateY(360deg);
+      }
+
+      #upload-container {
+        text-align: center;
+        margin-top: 40px;
+      }
+
+      .upload-button {
+        display: inline-block;
+        background-color: #6a5acd;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-transform: uppercase;
+      }
+
+      .upload-button:hover {
+        background-color: #483d8b;
+      }
+
+      #upload-message {
+        font-size: 16px;
+        margin-top: 20px;
+        text-align: center;
+        color: #fff;
+      }
+
+      .image-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 40px;
+      }
+
+      .image-preview img {
+        max-width: 400px;
+        height: auto;
+        margin: 10px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        border-radius: 8px;
+      }
+
+      .download-container {
+        text-align: center;
+        margin-top: 20px;
+      }
+
+      .download-button {
+        display: inline-block;
+        background-color: #6a5acd;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .download-button:hover {
+        background-color: #483d8b;
+      }
+
+      footer {
+        background-color: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .navigation-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        margin-top: -30px; /* Adjust this value to raise or lower the button */
+        z-index: 9999;
+      }
+
+      .navigation-button {
+        display: inline-block;
+        background-color: #6a5acd;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+
+      .navigation-button:hover {
+        background-color: #483d8b;
+      }
+
+      @keyframes rotateImages {
+        0% {
+          transform: rotateY(0deg);
+        }
+        100% {
+          transform: rotateY(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Deblurred Images</h1>
+    </header>
+
+    <div class="image-container">
+      <div class="moving-images">
+        <img src="synthetic-image2.webp" class="show" />
+        <img src="Deblur-image2.webp" />
+        <!-- <img src="/Users/chai/Desktop/DANCING-GIRL1.png">
+            <img src="/Users/chai/Desktop/DANCING-GIRL2.png"> -->
+      </div>
+    </div>
+
+    <div id="upload-container">
+      <label class="upload-button" for="file-upload">Choose an image</label>
+      <input type="file" id="file-upload" accept="image/*" />
+      <button class="upload-button" id="upload-button">Upload</button>
+    </div>
+
+    <div id="message-container">
+      <p id="upload-message"></p>
+    </div>
+
+    <div class="image-preview">
+      <img id="input-image" src="" alt="Input Blurred Image" />
+      <img id="output-image" src="" alt="Output Deblurred Image" />
+    </div>
+
+    <div class="download-container">
+      <a id="download-button" class="download-button" href="#" download
+        >Download Deblurred Image</a
+      >
+    </div>
+
+    <div class="navigation-container">
+      <a class="navigation-button" href="landing.html">Go back</a>
+    </div>
+
+    <script>
+      document
+        .getElementById("upload-button")
+        .addEventListener("click", uploadFile);
+
+      function uploadFile() {
+        var fileInput = document.getElementById("file-upload");
+        var messageElement = document.getElementById("upload-message");
+        var inputImageElement = document.getElementById("input-image");
+
+        if (fileInput.files.length > 0) {
+          var file = fileInput.files[0];
+          var filename = file.name;
+          var reader = new FileReader();
+
+          reader.onload = function (event) {
+            inputImageElement.src = event.target.result;
+          };
+
+          reader.readAsDataURL(file);
+
+          messageElement.textContent =
+            'File "' + filename + '" uploaded successfully!';
+        } else {
+          messageElement.textContent = "Please select a file.";
+        }
+      }
+
+      // Image slideshow
+      var images = document.querySelectorAll(".moving-images img");
+      var currentIndex = 0;
+
+      setInterval(function () {
+        images[currentIndex].classList.remove("show");
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].classList.add("show");
+      }, 5000);
+
+      // Download deblurred image
+      var outputImageElement = document.getElementById("output-image");
+      var downloadButtonElement = document.getElementById("download-button");
+
+      // Replace the following URL with the URL of the generated deblurred image
+      var deblurredImageURL = "https://example.com/path/to/deblurred-image.jpg";
+
+      outputImageElement.src = deblurredImageURL;
+      downloadButtonElement.href = deblurredImageURL;
+    </script>
+  </body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beautify - Image Upload</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Beautify - Image Upload</h1>
+    </header>
+
+    <main>
+        <div class="image-upload">
+            <h2>Upload an Image</h2>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <input type="file" name="image" accept="image/*">
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Beautify. All rights reserved.</p>
+    </footer>
+</body>
+</html>

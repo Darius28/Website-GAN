@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beautify - Image Deblurring and Synthetic Data Generation</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #6A5ACD;
+            color: #FFF;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        main {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .use-cases {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .use-case {
+            background-color: #FFF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .use-case.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .use-case:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .use-case a {
+            text-decoration: none;
+            color: #333;
+        }
+
+        .synthetic-data-icon {
+            width: 240px;
+            height: 240px;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #6A5ACD;
+            color: #FFF;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Beautify</h1>
+        <p>A powerful tool for image deblurring and synthetic data generation</p>
+    </header>
+
+    <main>
+        <div class="use-cases">
+            <div class="use-case">
+                <a href="deblur.html">
+                    <img src="image-deblur.webp" alt="Image Deblur Icon">
+                    <h3>Image Deblurring</h3>
+                </a>
+            </div>
+            <div class="use-case">
+                <a href="Synthetic-data.html">
+                    <img class="synthetic-data-icon" src="Synthetic-image4.jpeg" alt="Synthetic Data Icon">
+                    <h3>Synthetic Data Generation</h3>
+                </a>
+            </div>
+            <!-- Add more use cases as needed -->
+        </div>
+    </main>
+
+    <canvas id="myCanvas"></canvas>
+
+    <footer>
+        <p>&copy; 2023 Beautify. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var useCases = document.querySelectorAll('.use-case');
+            useCases.forEach(function(useCase, index) {
+                setTimeout(function() {
+                    useCase.classList.add('show');
+                }, index * 200);
+            });
+
+            var canvas = document.getElementById('myCanvas');
+            var ctx = canvas.getContext('2d');
+
+            // Set canvas size to match the window size
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            // Create gradient background
+            var gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+            gradient.addColorStop(0, '#E6E6FA');  // Light purple color at the top
+            gradient.addColorStop(1, '#FFF');     // White color at the bottom
+
+            // Fill background with gradient
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Animation variables
+            var x = canvas.width / 2;
+            var y = canvas.height / 2;
+            var radius = 50;
+            var dx = 2;
+            var dy = -2;
+
+            // Animation function
+            function animate() {
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // Draw gradient background
+                ctx.fillStyle = gradient;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                // Draw animated element
+                ctx.beginPath();
+                ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+                ctx.fillStyle = '#6A5ACD';
+                ctx.fill();
+                ctx.closePath();
+
+                // Update position
+                x += dx;
+                y += dy;
+
+                // Bounce off walls
+                if (x + radius > canvas.width || x - radius < 0) {
+                    dx = -dx;
+                }
+                if (y + radius > canvas.height || y - radius < 0) {
+                    dy = -dy;
+                }
+
+                // Request next animation frame
+                requestAnimationFrame(animate);
+            }
+
+            // Start animation
+            animate();
+        });
+    </script>
+</body>
+</html>

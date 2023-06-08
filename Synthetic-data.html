@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Synthetic Data Generation</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <style>
+      /* CSS styles here */
+
+      body {
+        background-color: #f6f2ff;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+      }
+
+      header {
+        background-color: #6a5acd;
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 40px;
+        margin: 0;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 40px auto;
+        padding: 20px;
+        text-align: center;
+      }
+
+      #input-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 5px;
+      }
+
+      .grid-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        grid-gap: 20px;
+        justify-content: center;
+      }
+
+      .grid-item {
+        text-align: center;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      .grid-item:hover {
+        transform: translateY(-5px);
+      }
+
+      .grid-item img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+        border-radius: 5px;
+      }
+
+      .grid-item a {
+        display: block;
+        margin-top: 10px;
+        color: #6a5acd;
+        text-decoration: none;
+      }
+
+      footer {
+        background-color: #6a5acd;
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        font-size: 14px;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
+
+      .navigation-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 9999;
+      }
+
+      .navigation-button {
+        display: inline-block;
+        background-color: #6a5acd;
+        color: #fff;
+        border: none;
+        border-radius: 50px;
+        padding: 16px 32px;
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        text-decoration: none;
+        text-transform: uppercase;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Synthetic Data Generation</h1>
+    </header>
+
+    <div class="container">
+      <input type="file" id="file-upload" accept="image/*" />
+      <br />
+      <br />
+      <img id="input-image" src="#" />
+      <br />
+      <br />
+      <button id="generate-button">Generate Synthetic Data</button>
+
+      <div class="grid-container" id="synthetic-grid"></div>
+    </div>
+
+    <footer>
+      <p>&copy; 2023 Synthetic Data Generation. All rights reserved.</p>
+    </footer>
+
+    <div class="navigation-container">
+      <a href="landing.html" class="navigation-button">Go Back</a>
+    </div>
+
+    <script>
+      // Function to handle file upload and display selected image
+      document
+        .getElementById("file-upload")
+        .addEventListener("change", function (event) {
+          var file = event.target.files[0];
+          var reader = new FileReader();
+
+          reader.onload = function (e) {
+            document.getElementById("input-image").src = e.target.result;
+          };
+
+          reader.readAsDataURL(file);
+        });
+
+      // Function to generate and display synthetic images
+      document
+        .getElementById("generate-button")
+        .addEventListener("click", function () {
+          var inputImage = document.getElementById("input-image");
+          var syntheticGrid = document.getElementById("synthetic-grid");
+
+          // Clear previous synthetic images
+          syntheticGrid.innerHTML = "";
+
+          // Generate and display synthetic images
+          for (var i = 1; i <= 9; i++) {
+            var syntheticImage = document.createElement("img");
+            syntheticImage.src = "path/to/generated-image-" + i + ".jpg";
+            syntheticImage.alt = "Synthetic Image " + i;
+
+            var gridItem = document.createElement("div");
+            gridItem.classList.add("grid-item");
+            gridItem.appendChild(syntheticImage);
+
+            syntheticGrid.appendChild(gridItem);
+          }
+        });
+    </script>
+  </body>
+</html>

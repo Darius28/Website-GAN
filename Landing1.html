@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Beautify - Image Deblurring and Synthetic Data Generation</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        body {
+            background-color: #F6F2FF;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            background-color: #6A5ACD;
+            color: #FFF;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        main {
+            padding: 40px;
+            text-align: center;
+        }
+
+        .use-cases {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .use-case {
+            background-color: #FFF;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .use-case.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .use-case:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .use-case a {
+            text-decoration: none;
+            color: #333;
+        }
+        .synthetic-data-icon {
+            width: 240px;
+            height: 240px;
+        }
+
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        footer {
+            background-color: #6A5ACD;
+            color: #FFF;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Welcome to Beautify</h1>
+        <p>A powerful tool for image deblurring and synthetic data generation</p>
+    </header>
+
+    <main>
+        <div class="use-cases">
+            <div class="use-case">
+                <a href="deblur.html">
+                    <img src="image-deblur.webp" alt="Image Deblur Icon">
+                    <h3>Image Deblurring</h3>
+                </a>
+            </div>
+            <div class="use-case">
+                <a href="/use-case/synthetic-data/">
+                    <img class="synthetic-data-icon" src="Synthetic-image4.jpeg" alt="Synthetic Data Icon">
+                    <h3>Synthetic Data Generation</h3>
+                </a>
+            </div>
+            <!-- Add more use cases as needed -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Beautify. All rights reserved.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var useCases = document.querySelectorAll('.use-case');
+            useCases.forEach(function(useCase, index) {
+                setTimeout(function() {
+                    useCase.classList.add('show');
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
